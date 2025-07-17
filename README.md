@@ -1,6 +1,6 @@
-# 📦 Laravel Docker Setup (PHP-FPM + Nginx + MySQL)
+# 📦 Laravel Docker Setup (PHP-FPM + Nginx + PostgreSQL)
 
-Struktur proyek ini menggunakan Docker untuk menjalankan aplikasi Laravel secara terisolasi dan terpisah antara service: PHP-FPM (Laravel), Nginx, dan MySQL.
+Struktur proyek ini menggunakan Docker untuk menjalankan aplikasi Laravel secara terisolasi dan terpisah antara service: PHP-FPM (Laravel), Nginx, dan PostgreSQL.
 
 ## 📁 Struktur Direktori
 ```
@@ -9,7 +9,7 @@ Struktur proyek ini menggunakan Docker untuk menjalankan aplikasi Laravel secara
 ├── README.md
 ├── docker-compose.yml
 ├── init.sh
-├── mysql
+├── postgres
 │   └── README.md
 ├── nginx
 │   └── laravel.conf
@@ -24,10 +24,10 @@ Struktur proyek ini menggunakan Docker untuk menjalankan aplikasi Laravel secara
 | File/Folder        | Deskripsi Singkat                                                                 |
 |--------------------|-----------------------------------------------------------------------------------|
 | `Dockerfile`        | Membangun image untuk Laravel berbasis `php:8.2-fpm`, menginstal ekstensi dan Composer |
-| `docker-compose.yml` | Menjalankan ketiga service utama (Laravel App, Nginx, MySQL) secara bersamaan     |
+| `docker-compose.yml` | Menjalankan ketiga service utama (Laravel App, Nginx, PostgreSQL) secara bersamaan     |
 | `init.sh`           | Script entrypoint untuk menjalankan `composer install`, migrate, dan `php-fpm`    |
 | `nginx/laravel.conf`| Konfigurasi server Nginx agar bisa meneruskan request ke container Laravel        |
-| `mysql/`            | Direktori volume untuk penyimpanan data MySQL secara persisten                    |
+| `postgres/`            | Direktori volume untuk penyimpanan data PostgreSQL secara persisten                    |
 | `src/`              | Direktori tempat source code Laravel berada                                       |
 
 ## ⚙️ Pengaturan Awal Sebelum Menjalankan Docker
@@ -46,7 +46,7 @@ Sebelum menjalankan proyek Laravel dengan Docker, pastikan beberapa hal berikut 
     ```
    - sesuaiakn .env khususnya pada pengaturan database
     ```
-    DB_CONNECTION=mysql
+    DB_CONNECTION=PostgreSQL
     DB_HOST=<nama-service dalam docker-compose.yml>
     DB_PORT=3306
     DB_DATABASE=<environment-dalam-service-db>
