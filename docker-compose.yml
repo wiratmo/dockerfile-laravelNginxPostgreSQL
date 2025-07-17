@@ -1,0 +1,43 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: erapor_app
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - laravel_net
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: erapor_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: erapor_win
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks:
+      - laravel_net
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: erapor_nginx_proxy
+    ports:
+      - "9003:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./src:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - laravel_net
+
+networks:
+  laravel_net:
+    driver: bridge
